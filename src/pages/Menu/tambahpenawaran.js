@@ -1,9 +1,32 @@
 import { View, ScrollView, TextInput, Text, TouchableNativeFeedback } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Color, colors, fonts } from '../../utils';
 import { MyCalendar, MyHeader, MyImageUpload, MyInput, MyPicker } from '../../components';
 
 export default function TambahPenawaran({ navigation }) {
+
+    const [data, setData] = useState({
+        kepada: '',
+        cc: '',
+        tanggal: new Date(),
+        email: '',
+        partno: '',
+        description: '',
+        price: '',
+        note: '',
+        payment: '',
+        stock: '',
+        nama_quotation: '',
+        nomor_telepon: '',
+        ttd:null
+    });
+
+    const handleDateChange = (date) => {
+        console.log("Tanggal yang di pilih :", date);
+        setData((prevstate) => ({...prevstate, tanggal: date}))
+    }
+
+
 return (
     <View
         style={{
@@ -20,13 +43,36 @@ return (
                     padding: 20,
                 }}
             >
-                <MyInput label="Kepada :" colorlabel={colors.primary} placeholder="Isi Jawaban" />
+                <MyInput
+                 label="Kepada :" 
+                 colorlabel={colors.primary} 
+                 placeholder="Isi Jawaban" 
+                value={data.kepada}
+                onChangeText={(x) => setData({...data, 'kepada': x})}
+                 />
 
-                <MyInput label="Up/Cc :" colorlabel={colors.primary} placeholder="Isi Jawaban" />
+                <MyInput 
+                label="Up/Cc :" 
+                colorlabel={colors.primary} 
+                placeholder="Isi Jawaban" 
+                value={data.cc}
+                onChangeText={(x) => setData({...data, 'cc': x})}
+                />
 
-                <MyCalendar label="Tanggal :" />
+                <MyCalendar
+                label="Tanggal :" 
+                value={data.tanggal || new Date()}
+                onDateChange={handleDateChange}
+                 />
 
-                <MyInput label="Email/No Telepon" placeholder="Isi Jawaban"  colorlabel={colors.primary}/>
+                <MyInput
+                value={data.email}
+                label="Email/No Telepon"
+                placeholder="Isi Jawaban"  
+                colorlabel={colors.primary}
+                onChangeText={(x) => setData({...data,'email': x})}
+                
+                  />
 
                 <MyPicker label="Part No :" />
 
@@ -41,6 +87,7 @@ return (
                     left:10
                 }}>Description :</Text>
                     <TextInput
+                    value={data.description}
                         placeholder="Isi Jawaban" 
                         multiline={true} 
                         style={{
@@ -55,10 +102,17 @@ return (
                             color: colors.black,
                             paddingLeft: 20,
                         }}
+                        onChangeText={(x) => setData({...data,'description' : x})}
                     />
                 </View>
 
-                <MyInput label="Price :" placeholder='Isi Jawaban'  colorlabel={colors.primary}/>
+                <MyInput 
+                label="Price :" 
+                placeholder='Isi Jawaban'  
+                colorlabel={colors.primary}
+                value={data.price}
+                onChangeText={(x) => setData({...data,'price' : x})}
+                />
 
                 <View
                     style={{
@@ -71,6 +125,7 @@ return (
                     left:10
                 }}>Note :</Text>
                     <TextInput
+                        value={data.note}
                         placeholder="Isi Jawaban" 
                         multiline={true} 
                         style={{
@@ -85,6 +140,8 @@ return (
                             color: colors.black,
                             paddingLeft: 20,
                         }}
+                    
+                        onChangeText={(x) => setData({...data,'note' : x})}
                     />
                 </View>
 
@@ -94,28 +151,53 @@ return (
                             borderRadius:50
                         }}></View>
 
-                        <MyPicker label='Payment' data={[
+                        <MyPicker value={data.payment} 
+                        onChangeText={(x) => 
+                        setData({...data,'payment' : x})} 
+                        label='Payment' 
+                        data={[
                             {label:'Cash Before Delivery', value:'Cash Before Delivery'},
                             {label:'DP 50% After Receive Order (ARO), Pelunasan 50% Setelah Barang Ready', value:'DP 50% After Receive Order (ARO), Pelunasan 50% Setelah Barang Ready'},
                             {label:'DP 30% After Receive Order (ARO), Pelunasan 70% Setelah Barang Ready', value:'DP 30% After Receive Order (ARO), Pelunasan 70% Setelah Barang Ready'}
+                        ]}
+
+                        />
+
+                        <MyPicker 
+                        label='Stock'
+                        value={data.stock}
+                        onChangeText={(x) => setData({...data, 'stock' : x})}
+                        data={[
+                            {label:'Ready Stock', value:'Ready Stock'},
+                            {label:'7 Hari Kerja', value:'7 Hari Kerja'},
+                            {label:'14 Hari Kerja', value:'14 Hari Kerja'},
+                            {label:'30 Hari Kerja', value:'30 Hari Kerja'},
+                            {label:'60 Hari Kerja', value:'60 Hari Kerja'},
+                            {label:'90 Hari Kerja', value:'90 Hari Kerja'}
                         ]}/>
 
-                        <MyPicker label='Payment' data={[
-                            {label:'7 Hari', value:'7 Hari'},
-                            {label:'14 Hari', value:'14 Hari'},
-                            {label:'30 Hari', value:'30 Hari'},
-                            {label:'60 Hari', value:'60 Hari'},
-                            {label:'90 Hari', value:'90 Hari'}
-                        ]}/>
+                        <MyInput 
+                        label="Nama Pembuat Quotation :" 
+                        placeholder='Isi Jawaban'  
+                        colorlabel={colors.primary}
+                        value={data.nama_quotation}
+                        onChangeText={(x) => setData({...data, 'nama_quotation' : x})}
+                        />
 
-                          <MyInput label="Nomor HP :" placeholder='Isi Jawaban'  colorlabel={colors.primary}/>
+                          <MyInput 
+                          label="Nomor HP :" 
+                          placeholder='Isi Jawaban'  
+                          colorlabel={colors.primary}
+                            value={data.nomor_telepon}
+                            onChangeText={(x) => setData({...data,'nomor_telepon': x})}
+                          />
                         
-                        <MyImageUpload/>
+                        <MyImageUpload onImagePicked={(x) => setData({...data,'ttd' : x})}/>
 
                         <View style={{
                             marginTop:20
                         }}>
-                            <TouchableNativeFeedback>
+                            <TouchableNativeFeedback onPress={() => navigation.navigate('HasilBuatPenawaran')}>
                                 <View style={{
                                     padding:10,
                                     backgroundColor:colors.primary,

@@ -9,6 +9,14 @@ import Register from './Register';
 import CheckHargaStock from './Menu/ckhargastok';
 import BuatPenawaran from './Menu/buatpenawaran';
 import TambahPenawaran from './Menu/tambahpenawaran';
+import DonwnloadBrosur from './Menu/downloadbrosur';
+import BuktiPengeluaran from './Menu/buktipengeluaran';
+import TambahBuktiPengeluaran from './Menu/tambahbuktipengeluaran';
+import HasilBuatPenawaran from './Menu/hasilbuatpenawaran';
+
+
+
+
 
 
 export {
@@ -21,8 +29,12 @@ export {
   Petunjuk,
   Register,
   CheckHargaStock,
-BuatPenawaran,
-TambahPenawaran,
+  BuatPenawaran,
+  TambahPenawaran,
+  DonwnloadBrosur,
+  BuktiPengeluaran,
+  TambahBuktiPengeluaran,
+  HasilBuatPenawaran,
 
 
 

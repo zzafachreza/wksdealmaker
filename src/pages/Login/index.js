@@ -1,9 +1,76 @@
-import { View, Text, ImageBackground, ScrollView, Image, TouchableNativeFeedback } from 'react-native'
-import React from 'react'
+import { View, Text, ImageBackground, ScrollView, Image, TouchableNativeFeedback, Alert } from 'react-native'
+import React, { useState } from 'react'
 import { colors, fonts } from '../../utils'
 import { MyInput } from '../../components'
+import { showMessage } from 'react-native-flash-message';
+import axios from 'axios';
 
 export default function Login({navigation}) {
+    const [data, setData] = useState({
+        email: '',
+        password:'',
+    });
+
+    const handleLogin = () => {
+        if (data.email.length == '' || data.password.length == '') {
+            showMessage({
+                type:'danger',
+                backgroundColor:colors.danger,
+                color:colors.white,
+                message:'Semua Field Harus Diisi!',
+                position:'top',
+                style:{borderBottomRightRadius:10, borderBottomLeftRadius:10,},
+                textStyle:{fontFamily:fonts.primary[600]}
+            });
+        } else if (data.email.length == '') {
+            showMessage({
+                type:'danger',
+                backgroundColor:colors.danger,
+                color:colors.white,
+                message:'Email Harus Diisi!',
+                position:'top',
+                style:{borderBottomRightRadius:10, borderBottomLeftRadius:10,},
+                textStyle:{fontFamily:fonts.primary[600]}
+                
+            });
+        } else if (data.password.length == '') {
+            showMessage({
+                type:'danger',
+                backgroundColor:colors.white,
+                color:colors.danger,
+                message:'Password Harus Diisi!',
+            });
+        }  else {
+            console.log('Data yang dikirim: ', data);
+
+            axios
+            .post('API KEY', data)
+            .then((res) => {
+                if (res.data.status == 'success') {
+                    showMessage({
+                        type:'success',
+                        backgroundColor:colors.white,
+                        color:colors.success,
+                        message:res.data.message
+                    });
+                    navigation.navigate('Home');
+                } else {
+                    showMessage({
+                        type:'danger',
+                        backgroundColor:colors.white,
+                        color:colors.danger,
+                        message:res.data.message
+                    });
+                }
+            
+            })
+            .catch((err) => {
+                console.error('Error: ', err);
+            })
+        }
+    };
+
+
   return (
     <ImageBackground style={{
         flex:1,
@@ -33,9 +100,21 @@ export default function Login({navigation}) {
             <View style={{
                 padding:10
             }}>
-                <MyInput label="Email" placeholder="Isi Email"  colorlabel='white'/>
+                <MyInput value={data.email} 
+                label="Email" 
+                placeholder="Isi Email"  
+                colorlabel='white'
+                onChangeText={(x) => setData({...data, 'email':x})}
+                />
 
-                <MyInput label="Kata Sandi" placeholder="Isi Kata Sandi"  colorlabel='white'/>
+                <MyInput 
+                label="Kata Sandi" 
+                placeholder="Isi Kata Sandi"  
+                colorlabel='white'
+                secureTextEntry={true}
+                value={data.password}
+                onChangeText={(x) => setData({...data, 'password':x})}
+                />
 
                 <View style={{
                     flexDirection:'row',
@@ -56,7 +135,7 @@ export default function Login({navigation}) {
 
 
                 <View>
-                    <TouchableNativeFeedback>
+                    <TouchableNativeFeedback onPress={handleLogin}>
                         <View style={{
                             padding:10,
                             backgroundColor:colors.secondary,

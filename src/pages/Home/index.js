@@ -283,7 +283,7 @@ export default function Home({ navigation, route }) {
           </TouchableNativeFeedback>
 
 
-          <TouchableNativeFeedback>
+          <TouchableNativeFeedback onPress={() => navigation.navigate('DownloadBrosur')}>
             <View style={{
               marginTop:10
             }}>
@@ -316,7 +316,7 @@ export default function Home({ navigation, route }) {
           </TouchableNativeFeedback>
 
 
-          <TouchableNativeFeedback>
+          <TouchableNativeFeedback onPress={() => navigation.navigate('BuktiPengeluaran')}>
             <View style={{
               marginTop:10
             }}>

@@ -64,6 +64,10 @@ import {
   CheckHargaStock,
   BuatPenawaran,
   TambahPenawaran,
+  DonwnloadBrosur,
+  BuktiPengeluaran,
+  TambahBuktiPengeluaran,
+  HasilBuatPenawaran,
 
 
 
@@ -83,6 +87,7 @@ const MainApp = () => {
   return (
     <Tab.Navigator initialRouteName='Produk' tabBar={props => <BottomNavigator {...props} />}>
       <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Profile" component={Account} />
 
     </Tab.Navigator>
   );
@@ -90,7 +95,7 @@ const MainApp = () => {
 
 export default function Router() {
   return (
-    <Stack.Navigator initialRouteName='TambahPenawaran'>
+    <Stack.Navigator initialRouteName='MainApp'>
       <Stack.Screen
         name="Splash"
         component={Splash}
@@ -125,6 +130,44 @@ export default function Router() {
 <Stack.Screen
         name="TambahPenawaran"
         component={TambahPenawaran}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+
+<Stack.Screen
+        name="DownloadBrosur"
+        component={DonwnloadBrosur}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+<Stack.Screen
+        name="BuktiPengeluaran"
+        component={BuktiPengeluaran}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+      
+<Stack.Screen
+        name="TambahBuktiPengeluaran"
+        component={TambahBuktiPengeluaran}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+<Stack.Screen
+        name="HasilBuatPenawaran"
+        component={HasilBuatPenawaran}
         options={{
           headerShown: false,
 
