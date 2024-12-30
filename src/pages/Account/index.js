@@ -20,6 +20,7 @@ import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import { ScrollView } from 'react-native';
+import { Collator } from 'intl';
 
 export default function ({ navigation, route }) {
     const [user, setUser] = useState({});
@@ -71,21 +72,30 @@ export default function ({ navigation, route }) {
 
     const MyList = ({ label, value }) => {
         return (
-            <View
+            <View style={{
+                marginTop:10
+            }}>
+                 <Text
+                    style={{
+                       fontFamily:fonts.primary[600],
+                       color:colors.primary,
+                       marginLeft:10
+
+                    }}>
+                    {label}
+                </Text>
+
+
+                <View
                 style={{
                     marginVertical: 2,
                     padding: 5,
                     paddingHorizontal: 10,
                     backgroundColor: Color.blueGray[50],
-                    borderRadius: 5,
+                    borderRadius: 30,
+                    height:40
                 }}>
-                <Text
-                    style={{
-                        ...fonts.headline5,
-                        color: Color.primary[900],
-                    }}>
-                    {label}
-                </Text>
+               
                 <Text
                     style={{
                         ...fonts.body3,
@@ -94,6 +104,8 @@ export default function ({ navigation, route }) {
                     {value}
                 </Text>
             </View>
+            </View>
+          
         )
     }
     return (
@@ -122,33 +134,43 @@ export default function ({ navigation, route }) {
                             justifyContent: 'center',
                             alignItems: 'center'
                         }}>
-                            <View style={{
-                                width: 100,
-                                height: 100,
-                                borderWidth: 1,
-                                borderColor: Color.blueGray[100],
-                                overflow: 'hidden',
-                                borderRadius: 20,
-                                justifyContent: 'center',
-                                alignItems: 'center'
-                            }}>
-
-                                <Image source={{
-                                    uri: user.foto_user
-                                }} style={{
-                                    width: 100,
-                                    height: 100,
-
-                                }} />
-
-                            </View>
+                            
                         </View>
                         <View style={{ padding: 10, }}>
-                            <MyList label="Nama Lengkap" value={user.nama_lengkap} />
-                            <MyList label="Username" value={user.username} />
-                            <MyList label="Telepon" value={user.telepon} />
-                            <MyList label="Jenis Kelamin" value={user.jenis_kelamin} />
-                            <MyList label="Tanggal Lahir" value={moment(user.tanggal_lahir).format('dddd, DD MMMM YYYY') + ' ( ' + moment().diff(user.tanggal_lahir, 'year') + ' Tahun )'} />
+                            <MyList label="Nama Lengkap :" value={'Angga Kurniawan'} />
+                            <MyList label="Email :" value={'anggakurniawan12@gmail.com'} />
+                            <MyList label="Telepon :" value={'0865665467467'} />
+                            <MyList label="Alamat Lengkap :" value={'Depok, Jawa Barat'} />
+                            <View style={{
+                                padding:10,
+                                marginTop:10,
+
+                            }}>
+
+                            <Text style={{
+                                fontFamily  :fonts.primary[600],
+                                color:colors.primary
+                            }}>
+                            Foto Tanda Tangan : 
+                            </Text>
+
+                            <View style={{
+                                padding:10,
+                                marginTop:10,
+                                backgroundColor:Color.blueGray[50],
+                                borderRadius:30
+                            }}>
+
+                            <Image style={{
+                                width:127,
+                                height:120,
+                                alignSelf:'center'
+                            }} source={require('../../assets/ttd_dummmy.png')}/>
+
+                            </View>
+
+                            </View>
+                           
                         </View>
                         {/* data detail */}
                     </View>
@@ -157,9 +179,9 @@ export default function ({ navigation, route }) {
                 <View style={{
                     padding: 20,
                 }}>
-                    <MyButton warna={colors.primary} title="Edit Profile" Icons="create-outline" onPress={() => navigation.navigate('AccountEdit', user)} />
+                    <MyButton warna={colors.primary} title="Edit Profile"  onPress={() => navigation.navigate('AccountEdit', user)} />
                     <MyGap jarak={10} />
-                    <MyButton onPress={btnKeluar} warna={colors.secondary} title="Log Out" Icons="log-out-outline" iconColor={colors.white} colorText={colors.white} />
+                    <MyButton onPress={btnKeluar} warna={Color.blueGray[400]} title="Log Out"  iconColor={colors.white} colorText={colors.white} />
                 </View>
             </ScrollView>
         </SafeAreaView >

@@ -1,8 +1,9 @@
 import { View, Text, ScrollView, TouchableNativeFeedback } from 'react-native'
 import React from 'react'
 import { MyHeader, MyInput } from '../../components'
-import { colors } from '../../utils'
+import { colors, fonts } from '../../utils'
 import { Icon } from 'react-native-elements'
+
 
 export default function CheckHargaStock({}) {
   return (
@@ -20,32 +21,86 @@ export default function CheckHargaStock({}) {
         {/* SEARCH */}
 
         <View style={{
-            padding:10,
-            flexDirection:'row',
-            justifyContent:'space-between',
-            alignItems:"center"
+            padding:0,
+          
 
         }}>
         <View style={{
-            width:215,
-        }}>
-            <MyInput backgroundColor='#f5f5f5' label="Enter Part Number : " colorlabel={colors.primary} placeholder='Please enter part number'/>
-        </View>
+           flexDirection:"row",
+           justifyContent:"space-between",
+           alignItems:"center",
+           padding:10
 
-        <View style={{
-            width:60
         }}>
-            <MyInput label='Qty :'/>
-        </View>
-
+        <Text style={{
+            fontFamily:fonts.primary[600],
+            fontSize:12
+        }}>
+        Enter Part Number :
+        </Text>
             <View style={{
-                marginTop:40
+                top:-20,
+                width:215
+            }}>
+            <MyInput backgroundColor='#f5f5f5' colorlabel={colors.primary} placeholder='Please enter part number'/>
+            </View>
+        </View>
+
+        <View style={{
+           flexDirection:"row",
+           justifyContent:"space-between",
+           alignItems:"center",
+           padding:10,
+           marginTop:-30
+
+        }}>
+        <Text style={{
+            fontFamily:fonts.primary[600],
+            fontSize:12
+        }}>
+        Qty     
+        </Text>
+            <View style={{
+                top:-20,
+                width:215,
+                
+            }}>
+            <View style={{
+                flexDirection:"row",
+                alignItems:"center",
+             
+            }}>
+            <Text style={{
+                fontFamily:fonts.primary[600],
+                fontSize:12,
+                left:-10,
+                top:20
+            }}>
+                :
+            </Text>
+            <View style={{
+             
+                width:"100%"
+            }}>
+            <MyInput backgroundColor='#f5f5f5' colorlabel={colors.primary} placeholder='Please enter quantity'/>
+            </View>
+          
+            </View>
+            </View>
+        </View>
+
+           
+
+        </View>
+        <View style={{
+                marginTop:10,
+                padding:10
             }}>
                 <TouchableNativeFeedback>
                     <View style={{
                         padding:10,
                         backgroundColor:colors.primary,
-                        width:50,
+                      
                         height:43,
                         borderRadius:30,
                     }}>
@@ -53,11 +108,9 @@ export default function CheckHargaStock({}) {
                     </View>
                 </TouchableNativeFeedback>
             </View>
-
-        </View>
-
         </View>
      </ScrollView>
+    
     </View>
   )
 }
