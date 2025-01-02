@@ -100,10 +100,19 @@ export default function CheckHargaStock({}) {
                     <View style={{
                         padding:10,
                         backgroundColor:colors.primary,
-                      
+                        flexDirection:"row",
                         height:43,
                         borderRadius:30,
+                        justifyContent:"center",
+                        alignItems:'center'
+
                     }}>
+                    <Text style={{
+                        fontFamily:fonts.primary[500],
+                        color:"white",
+                        marginRight:10,
+                        fontSize:14,
+                    }}>Search</Text>
                         <Icon type='ionicon' name='search-outline' color='white' size={20}/>
                     </View>
                 </TouchableNativeFeedback>
