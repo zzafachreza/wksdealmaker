@@ -10,8 +10,9 @@ import {
   Dimensions,
   TouchableNativeFeedback,
 } from 'react-native';
-import { getData } from '../../utils/localStorage';
+import { apiURL, getData } from '../../utils/localStorage';
 import { colors, fonts, windowWidth } from '../../utils';
+import axios from 'axios';
 
 const images = [
   { id: 1, src: require('../../assets/korosel-1.png'), label: 'Gambar 1' },
@@ -27,10 +28,18 @@ export default function Home({ navigation, route }) {
   const scrollViewRef = useRef(null); // Untuk mengontrol scroll view
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const [banner, setBanner] = useState([]);
+
   const __getUser = () => {
     getData('user').then((u) => {
       setUser(u);
     });
+
+    axios.post(apiURL + 'banner').then(b => {
+      console.log(b.data);
+      setBanner(b.data);
+    })
+
   };
 
   useEffect(() => {
@@ -89,7 +98,7 @@ export default function Home({ navigation, route }) {
                   color: colors.white,
                 }}
               >
-                Fadhlan Himawan
+                {user.nama_lengkap}
               </Text>
             </View>
 
@@ -105,250 +114,252 @@ export default function Home({ navigation, route }) {
           </View>
 
           {/* COROSEL */}
-          <View style={{ marginTop: 20 }}>
+          <View style={{ marginTop: 10 }}>
             <ScrollView
               horizontal
-              pagingEnabled
+              // pagingEnabled
               showsHorizontalScrollIndicator={false}
               ref={scrollViewRef}
               onScroll={Animated.event(
                 [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                 { useNativeDriver: false }
               )}
-              scrollEventThrottle={16}
+              scrollEventThrottle={10}
             >
-              {images.map((item) => (
+              {banner.map((item) => (
                 <View
                   key={item.id}
                   style={{
                     width: windowWidth,
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    // justifyContent: 'center',
+                    // alignItems: 'center',
                   }}
                 >
                   <Image
-                    source={item.src}
+                    source={{
+                      uri: item.image
+                    }}
                     style={{
-                      width:348,
-                      height: 211,
+                      width: windowWidth - 20,
+                      height: 200,
                       borderRadius: 10,
                     }}
                   />
-                  
+
                 </View>
               ))}
             </ScrollView>
           </View>
 
           <View style={{
-            padding:10
+            padding: 10
           }}>
 
-          <Image style={{
-            width:281,
-            height:38,
-            alignSelf:"center",
-            marginTop:0
-          }} source={require('../../assets/logoteks.png')}/>
+            <Image style={{
+              width: 250,
+              height: 30,
+              alignSelf: "center",
+              marginTop: 0
+            }} source={require('../../assets/logoteks.png')} />
 
-          <View style={{
-            flexDirection:"row",
-            justifyContent:"space-between",
-            flexWrap:'wrap',
-            marginTop:20,
-            
-          }}>
-
-          <TouchableNativeFeedback onPress={() => navigation.navigate('CheckHargaStock')}>
-            <View>
-              <View style={{
-                padding:10,
-                backgroundColor:colors.primary,
-                borderRadius:100,
-                alignItems:"center",
-                width:80,
-                height:80,
-                flexDirection:'row',
-                justifyContent:'center'
-              
-
-              }}>
-                <Image style={{
-                    width:50,
-                    height:50,
-                    alignSelf:'center'
-                }} source={require('../../assets/menu_cekharga.png')}/>
-              </View>
-              <Text style={{
-                fontFamily:fonts.primary[600],
-                fontSize:12,
-                textAlign:"center",
-                marginTop:5
-
-              }}>Cek Harga{'\n'}&Stok</Text>
-            </View>
-          </TouchableNativeFeedback>
-
-          <TouchableNativeFeedback>
-            <View>
-              <View style={{
-                padding:10,
-                backgroundColor:colors.primary,
-                borderRadius:100,
-                alignItems:"center",
-                width:80,
-                height:80,
-                flexDirection:'row',
-                justifyContent:'center'
-              
-
-              }}>
-                <Image style={{
-                    width:50,
-                    height:50,
-                    alignSelf:'center'
-                }} source={require('../../assets/menu_reportvisit.png')}/>
-              </View>
-              <Text style={{
-                fontFamily:fonts.primary[600],
-                fontSize:12,
-                textAlign:"center",
-                marginTop:5
-
-              }}>Report Visit</Text>
-            </View>
-          </TouchableNativeFeedback>
-
-          <TouchableNativeFeedback>
-            <View>
-              <View style={{
-                padding:10,
-                backgroundColor:colors.primary,
-                borderRadius:100,
-                alignItems:"center",
-                width:80,
-                height:80,
-                flexDirection:'row',
-                justifyContent:'center'
-              
-
-              }}>
-                <Image style={{
-                    width:50,
-                    height:50,
-                    alignSelf:'center'
-                }} source={require('../../assets/menu_reportservice.png')}/>
-              </View>
-              <Text style={{
-                fontFamily:fonts.primary[600],
-                fontSize:12,
-                textAlign:"center",
-                marginTop:5
-
-              }}>Report Service</Text>
-            </View>
-          </TouchableNativeFeedback>
-
-
-          <TouchableNativeFeedback onPress={() => navigation.navigate('BuatPenawaran')}>
             <View style={{
-              marginTop:10
+              flexDirection: "row",
+              justifyContent: "space-between",
+              flexWrap: 'wrap',
+              marginTop: 10,
+
             }}>
-              <View style={{
-                padding:10,
-                backgroundColor:colors.primary,
-                borderRadius:100,
-                alignItems:"center",
-                width:80,
-                height:80,
-                flexDirection:'row',
-                justifyContent:'center'
-              
 
-              }}>
-                <Image style={{
-                    width:50,
-                    height:50,
-                    alignSelf:'center'
-                }} source={require('../../assets/menu_buatpenawaran.png')}/>
-              </View>
-              <Text style={{
-                fontFamily:fonts.primary[600],
-                fontSize:12,
-                textAlign:"center",
-                marginTop:5
+              <TouchableNativeFeedback onPress={() => navigation.navigate('CheckHargaStock')}>
+                <View>
+                  <View style={{
+                    padding: 10,
+                    backgroundColor: colors.primary,
+                    borderRadius: 100,
+                    alignItems: "center",
+                    width: 80,
+                    height: 80,
+                    flexDirection: 'row',
+                    justifyContent: 'center'
 
-              }}>Buat{'\n'}Penawaran</Text>
+
+                  }}>
+                    <Image style={{
+                      width: 50,
+                      height: 50,
+                      alignSelf: 'center'
+                    }} source={require('../../assets/menu_cekharga.png')} />
+                  </View>
+                  <Text style={{
+                    fontFamily: fonts.primary[600],
+                    fontSize: 11,
+                    textAlign: "center",
+                    marginTop: 5
+
+                  }}>Cek Harga{'\n'}&Stok</Text>
+                </View>
+              </TouchableNativeFeedback>
+
+              <TouchableNativeFeedback>
+                <View>
+                  <View style={{
+                    padding: 10,
+                    backgroundColor: colors.primary,
+                    borderRadius: 100,
+                    alignItems: "center",
+                    width: 80,
+                    height: 80,
+                    flexDirection: 'row',
+                    justifyContent: 'center'
+
+
+                  }}>
+                    <Image style={{
+                      width: 50,
+                      height: 50,
+                      alignSelf: 'center'
+                    }} source={require('../../assets/menu_reportvisit.png')} />
+                  </View>
+                  <Text style={{
+                    fontFamily: fonts.primary[600],
+                    fontSize: 11,
+                    textAlign: "center",
+                    marginTop: 5
+
+                  }}>Report Visit</Text>
+                </View>
+              </TouchableNativeFeedback>
+
+              <TouchableNativeFeedback>
+                <View>
+                  <View style={{
+                    padding: 10,
+                    backgroundColor: colors.primary,
+                    borderRadius: 100,
+                    alignItems: "center",
+                    width: 80,
+                    height: 80,
+                    flexDirection: 'row',
+                    justifyContent: 'center'
+
+
+                  }}>
+                    <Image style={{
+                      width: 50,
+                      height: 50,
+                      alignSelf: 'center'
+                    }} source={require('../../assets/menu_reportservice.png')} />
+                  </View>
+                  <Text style={{
+                    fontFamily: fonts.primary[600],
+                    fontSize: 11,
+                    textAlign: "center",
+                    marginTop: 5
+
+                  }}>Report Service</Text>
+                </View>
+              </TouchableNativeFeedback>
+
+
+              <TouchableNativeFeedback onPress={() => navigation.navigate('BuatPenawaran')}>
+                <View style={{
+                  marginTop: 10
+                }}>
+                  <View style={{
+                    padding: 10,
+                    backgroundColor: colors.primary,
+                    borderRadius: 100,
+                    alignItems: "center",
+                    width: 80,
+                    height: 80,
+                    flexDirection: 'row',
+                    justifyContent: 'center'
+
+
+                  }}>
+                    <Image style={{
+                      width: 50,
+                      height: 50,
+                      alignSelf: 'center'
+                    }} source={require('../../assets/menu_buatpenawaran.png')} />
+                  </View>
+                  <Text style={{
+                    fontFamily: fonts.primary[600],
+                    fontSize: 11,
+                    textAlign: "center",
+                    marginTop: 5
+
+                  }}>Buat{'\n'}Penawaran</Text>
+                </View>
+              </TouchableNativeFeedback>
+
+
+              <TouchableNativeFeedback onPress={() => navigation.navigate('DownloadBrosur')}>
+                <View style={{
+                  marginTop: 10
+                }}>
+                  <View style={{
+                    padding: 10,
+                    backgroundColor: colors.primary,
+                    borderRadius: 100,
+                    alignItems: "center",
+                    width: 80,
+                    height: 80,
+                    flexDirection: 'row',
+                    justifyContent: 'center'
+
+
+                  }}>
+                    <Image style={{
+                      width: 50,
+                      height: 50,
+                      alignSelf: 'center'
+                    }} source={require('../../assets/menu_downloadbrosur.png')} />
+                  </View>
+                  <Text style={{
+                    fontFamily: fonts.primary[600],
+                    fontSize: 11,
+                    textAlign: "center",
+                    marginTop: 5
+
+                  }}>Download{'\n'}Brosur</Text>
+                </View>
+              </TouchableNativeFeedback>
+
+
+              <TouchableNativeFeedback onPress={() => navigation.navigate('BuktiPengeluaran')}>
+                <View style={{
+                  marginTop: 10
+                }}>
+                  <View style={{
+                    padding: 10,
+                    backgroundColor: colors.primary,
+                    borderRadius: 100,
+                    alignItems: "center",
+                    width: 80,
+                    height: 80,
+                    flexDirection: 'row',
+                    justifyContent: 'center'
+
+
+                  }}>
+                    <Image style={{
+                      width: 50,
+                      height: 50,
+                      alignSelf: 'center'
+                    }} source={require('../../assets/menu_buktipengeluaran.png')} />
+                  </View>
+                  <Text style={{
+                    fontFamily: fonts.primary[600],
+                    fontSize: 11,
+                    textAlign: "center",
+                    marginTop: 5
+
+                  }}>Bukti{'\n'}Pengeluaran{'\n'}Kegiatan</Text>
+                </View>
+              </TouchableNativeFeedback>
+
             </View>
-          </TouchableNativeFeedback>
-
-
-          <TouchableNativeFeedback onPress={() => navigation.navigate('DownloadBrosur')}>
-            <View style={{
-              marginTop:10
-            }}>
-              <View style={{
-                padding:10,
-                backgroundColor:colors.primary,
-                borderRadius:100,
-                alignItems:"center",
-                width:80,
-                height:80,
-                flexDirection:'row',
-                justifyContent:'center'
-              
-
-              }}>
-                <Image style={{
-                    width:50,
-                    height:50,
-                    alignSelf:'center'
-                }} source={require('../../assets/menu_downloadbrosur.png')}/>
-              </View>
-              <Text style={{
-                fontFamily:fonts.primary[600],
-                fontSize:12,
-                textAlign:"center",
-                marginTop:5
-
-              }}>Download{'\n'}Brosur</Text>
-            </View>
-          </TouchableNativeFeedback>
-
-
-          <TouchableNativeFeedback onPress={() => navigation.navigate('BuktiPengeluaran')}>
-            <View style={{
-              marginTop:10
-            }}>
-              <View style={{
-                padding:10,
-                backgroundColor:colors.primary,
-                borderRadius:100,
-                alignItems:"center",
-                width:80,
-                height:80,
-                flexDirection:'row',
-                justifyContent:'center'
-              
-
-              }}>
-                <Image style={{
-                    width:50,
-                    height:50,
-                    alignSelf:'center'
-                }} source={require('../../assets/menu_buktipengeluaran.png')}/>
-              </View>
-              <Text style={{
-                fontFamily:fonts.primary[600],
-                fontSize:12,
-                textAlign:"center",
-                marginTop:5
-
-              }}>Bukti{'\n'}Pengeluaran{'\n'}Kegiatan</Text>
-            </View>
-          </TouchableNativeFeedback>
-
-          </View>
 
 
           </View>

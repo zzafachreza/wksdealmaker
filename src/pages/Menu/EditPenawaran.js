@@ -6,8 +6,9 @@ import moment from 'moment';
 import { apiURL, getData } from '../../utils/localStorage';
 import axios from 'axios';
 import { Col } from 'react-native-table-component';
+import { useToast } from 'react-native-toast-notifications';
 
-export default function TambahPenawaran({ navigation, route }) {
+export default function EditPenawaran({ navigation, route }) {
 
     const [filteredPartNo, setFilteredPartNo] = useState([]);
     const allPartNos = ["PN12345", "PN54321", "PN67890"];
@@ -35,29 +36,10 @@ export default function TambahPenawaran({ navigation, route }) {
     };
 
     const [user, setUser] = useState({});
+    const toast = useToast();
 
-    useEffect(() => {
-        getData('user').then(res => {
-            setData({
-                ...data,
-                fid_user: res.id
-            })
-        });
-    }, [])
 
-    const [data, setData] = useState({
-        kepada: '',
-        cc: '',
-        tanggal: moment().format('YYYY-MM-DD'),
-        email_telepon: '',
-        partno: '',
-        deskripsi: '',
-        harga: '',
-        catatan: '',
-        payment: 'Cash Before Delivery',
-        stock: 'Ready Stock, Sebelum Terjual',
-
-    });
+    const [data, setData] = useState(route.params);
 
     const handleDateChange = (date) => {
         console.log("Tanggal yang di pilih :", date);
@@ -66,8 +48,14 @@ export default function TambahPenawaran({ navigation, route }) {
 
     const sendServer = () => {
         console.log(data);
-        axios.post(apiURL + 'penawaran_add', data).then(res => {
-            console.log(res.data)
+        axios.post(apiURL + 'penawaran_update', data).then(res => {
+            console.log(res.data);
+            if (res.data.status == 200) {
+                toast.show(res.data.message, {
+                    type: 'success'
+                });
+                navigation.pop(2);
+            }
         })
     }
 
@@ -191,7 +179,7 @@ export default function TambahPenawaran({ navigation, route }) {
                         label="Price :"
                         placeholder='Isi Jawaban'
                         colorlabel={colors.primary}
-                        value={data.price}
+                        value={data.harga}
                         keyboardType='number-pad'
                         onChangeText={(x) => setData({ ...data, harga: x })}
                     />
@@ -207,7 +195,7 @@ export default function TambahPenawaran({ navigation, route }) {
                             left: 10
                         }}>Note :</Text>
                         <TextInput
-                            value={data.note}
+                            value={data.catatan}
                             placeholder="Isi Jawaban"
                             multiline={true}
                             style={{

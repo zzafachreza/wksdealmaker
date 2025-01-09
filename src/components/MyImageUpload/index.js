@@ -5,12 +5,12 @@ import { Color, colors, fonts } from '../../utils';
 import { Icon } from 'react-native-elements';
 
 
-export default function MyImageUpload({ 
+export default function MyImageUpload({
   label = 'Foto Tanda Tangan',
   onImagePicked,
   imageUri
 
- }) {
+}) {
   const [selectedImage, setSelectedImage] = useState(imageUri || null);
 
   const pickImage = () => {
@@ -33,7 +33,7 @@ export default function MyImageUpload({
         const imageUri = response.assets[0].uri;
         const base64Image = `data:${response.assets[0].type};base64,${response.assets[0].base64}`;
         setSelectedImage(imageUri);
-        
+
         // Kirim gambar base64 ke parent component
         if (onImagePicked) {
           onImagePicked(base64Image); // Gambar dikirim dalam format base64
@@ -50,12 +50,12 @@ export default function MyImageUpload({
           color: colors.primary,
           marginBottom: 5,
           fontSize: 15,
-          marginTop:10
+          marginTop: 10
         }}>
           {label}
         </Text>
       )}
-      
+
       <TouchableOpacity onPress={pickImage} style={[styles.container, selectedImage && styles.containerWithImage]}>
         <View style={styles.imageContainer}>
           {selectedImage ? (
@@ -100,7 +100,7 @@ export default function MyImageUpload({
 
 const styles = StyleSheet.create({
   container: {
-    height: 50,
+    height: 100,
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   containerWithImage: {
-    height: 120, // Ubah tinggi container menjadi 120 jika gambar sudah dipilih
+    height: 220, // Ubah tinggi container menjadi 120 jika gambar sudah dipilih
   },
   imageContainer: {
     flexDirection: 'row',
@@ -120,9 +120,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   imageSelected: {
-    width: 100,
-    height: 100, // Gambar menjadi 100x100 setelah dipilih
+    width: 200,
+    height: 200, // Gambar menjadi 100x100 setelah dipilih
     borderRadius: 10,
-    alignSelf:"center"
+    resizeMode: 'contain',
+    alignSelf: "center"
   },
 });

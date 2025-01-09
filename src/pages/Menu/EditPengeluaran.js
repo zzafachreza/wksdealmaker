@@ -7,28 +7,20 @@ import axios from 'axios';
 import { apiURL, getData, MYAPP } from '../../utils/localStorage';
 import { useToast } from 'react-native-toast-notifications';
 
-export default function TambahBuktiPengeluaran({ navigation }) {
+export default function EditPengeluaran({ navigation, route }) {
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(false);
     const toast = useToast();
 
     useEffect(() => {
-        getData('user').then(u => {
-            setUser(u);
-            setData({
-                ...data,
-                fid_user: u.id
-            })
+        setData({
+            ...data,
+            newfoto_pengeluaran: ''
         })
     }, [])
-    const [data, setData] = useState({
-        tanggal: new Date(),
-        jenis: '',
-        nominal: '',
-        nama_karyawan: '',
-        tujuan: '',
-        foto_pengeluaran: null,
-    });
+
+
+    const [data, setData] = useState(route.params);
 
     const handleDateChange = (date) => {
         console.log("Tanggal yang dipilih:", date);
@@ -90,13 +82,14 @@ export default function TambahBuktiPengeluaran({ navigation }) {
             console.log("Data yang di kirim : ", data);
 
             axios
-                .post(apiURL + 'pengeluaran_add', data)
+                .post(apiURL + 'pengeluaran_update', data)
                 .then((res) => {
+                    console.log(res.data);
                     if (res.data.status == 200) {
                         toast.show(res.data.message, {
                             type: 'success'
                         });
-                        navigation.goBack();
+                        navigation.pop(2);
                     }
                 })
                 .catch(err => {
@@ -165,7 +158,7 @@ export default function TambahBuktiPengeluaran({ navigation }) {
                         onChangeText={(x) => setData({ ...data, 'tujuan': x })}
                     />
 
-                    <MyImageUpload label='Bukti Foto Nota' onImagePicked={(x) => setData({ ...data, 'foto_pengeluaran': x })} />
+                    <MyImageUpload label='Bukti Foto Nota ( Kosongkan jika tidak diubah )' onImagePicked={(x) => setData({ ...data, 'newfoto_pengeluaran': x })} />
 
 
 

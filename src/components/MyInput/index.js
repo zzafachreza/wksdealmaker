@@ -13,11 +13,12 @@ export default function MyInput({
   backgroundColor = colors.white,
   editable,
   icon = true,
+  onEndEditing,
   maxLength,
   iconname,
   onChangeText,
   value,
-  colorlabel=colors.black,
+  colorlabel = colors.black,
   borderWidth = 1,
   textColor = colors.black,
   keyboardType,
@@ -34,12 +35,12 @@ export default function MyInput({
 
   const [tutup, setTutup] = useState(true);
   return (
-    <View style={{marginTop:10}}>
+    <View style={{ marginTop: 10 }}>
       <Text style={{
-        fontFamily:fonts.primary[600],
+        fontFamily: fonts.primary[600],
         color: colorlabel,
         marginBottom: 8,
-        marginLeft:10
+        marginLeft: 10
       }}>{label}</Text>
       <View style={{
         height: 40,
@@ -58,6 +59,7 @@ export default function MyInput({
           </View>
         )}
         <TextInput
+          onEndEditing={onEndEditing}
           maxLength={maxLength}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
@@ -75,7 +77,7 @@ export default function MyInput({
             flex: 1, // Flex untuk mengisi ruang yang ada
             paddingLeft: icon ? 10 : 40,
             paddingRight: rightLabel ? 10 : 0, // Spasi tambahan jika ada rightLabel
-            height: 40,
+            height: 50,
             color: Color.blueGray[900],
           }}
         />

@@ -37,9 +37,15 @@ export default function Splash({ navigation }) {
       })
     ]).start();
 
-  
+
     setTimeout(() => {
-      navigation.replace("Login");
+      getData('user').then(res => {
+        if (!res) {
+          navigation.replace("Login");
+        } else {
+          navigation.replace("MainApp");
+        }
+      })
     }, 1200);
   }, []);
 
@@ -67,57 +73,57 @@ export default function Splash({ navigation }) {
           style={{
             transform: [{ scale: img }],
             width: windowWidth / 1.5,
-            height: windowWidth / 1.5,  
-            marginTop:'30%'
+            height: windowWidth / 1.5,
+            marginTop: '30%'
 
           }}
         />
-      
-      <View style={{
-        marginTop:'20%',
-        alignItems:"center"
-      }}>
-      <Animated.Text Style={{
-          opacity: textOpacity,
-          transform: [{ scale: textScale }],
-          textAlign: 'center',
-          color: colors.white,
-          fontFamily: fonts.primary[600],
-          fontSize: 20,
-      }}>
-          <Text style={{
-            fontFamily:fonts.primary[600],
-            fontSize: 20,
-            color:colors.white,
-         
-          }}>PT Wali Karunia Sejahtera</Text>
-        </Animated.Text>
 
-          <Animated.Text style={{
-            opacity:textOpacity,
+        <View style={{
+          marginTop: '20%',
+          alignItems: "center"
+        }}>
+          <Animated.Text Style={{
+            opacity: textOpacity,
             transform: [{ scale: textScale }],
-            textAlign:"center",
-            marginTop:10,
-            paddingHorizontal:20,
-            color:colors.white,
-            fontFamily:fonts.primary[400],
-            fontSize:12,
-            lineHeight:20,
-            textAlign:"center"
+            textAlign: 'center',
+            color: colors.white,
+            fontFamily: fonts.primary[600],
+            fontSize: 20,
           }}>
             <Text style={{
-              fontFamily:fonts.primary[500],
-              color:colors.white,
-              fontSize:12,
-              
+              fontFamily: fonts.primary[600],
+              fontSize: 20,
+              color: colors.white,
+
+            }}>PT Wali Karunia Sejahtera</Text>
+          </Animated.Text>
+
+          <Animated.Text style={{
+            opacity: textOpacity,
+            transform: [{ scale: textScale }],
+            textAlign: "center",
+            marginTop: 10,
+            paddingHorizontal: 20,
+            color: colors.white,
+            fontFamily: fonts.primary[400],
+            fontSize: 12,
+            lineHeight: 20,
+            textAlign: "center"
+          }}>
+            <Text style={{
+              fontFamily: fonts.primary[500],
+              color: colors.white,
+              fontSize: 12,
+
             }}>
-            Lembah Cinere Indah, Jalan Kelapa Sawit Blok E No. 130 Cinere,
-            Depok Indonesia 16514
+              Lembah Cinere Indah, Jalan Kelapa Sawit Blok E No. 130 Cinere,
+              Depok Indonesia 16514
             </Text>
           </Animated.Text>
-      </View>
-          
-        <ActivityIndicator style={{marginTop:50}} color={colors.primary} size="small" />
+        </View>
+
+        <ActivityIndicator style={{ marginTop: 50 }} color={colors.primary} size="small" />
 
       </ImageBackground>
 

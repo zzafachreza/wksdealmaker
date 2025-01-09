@@ -12,12 +12,13 @@ export default function MyPicker({
   data = [],
 }) {
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(data[0]);  // Default selected item
-  
+  const [selectedItem, setSelectedItem] = useState(data[data.map(i => i.label).indexOf(value)]);  // Default selected item
+
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.itemContainer}
       onPress={() => {
+
         setSelectedItem(item);  // Simpan item yang dipilih
         onChangeText(item.value);  // Update value sesuai yang dipilih
         setModalVisible(false);
@@ -43,7 +44,10 @@ export default function MyPicker({
 
       <TouchableOpacity
         style={styles.pickerContainer}
-        onPress={() => setModalVisible(true)}
+        onPress={() => {
+          setModalVisible(true);
+
+        }}
       >
         <View style={styles.iconContainer}>
           <Icon type="ionicon" name={iconname} color={Color.blueGray[300]} size={24} />

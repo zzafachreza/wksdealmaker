@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Spinner from 'react-native-spinkit';
-import { Color } from '../../utils';
+import { Color, colors } from '../../utils';
 
-export default function MyLoading({ type = 'ThreeBounce', color = Color.primary[900] }) {
+export default function MyLoading({ type = 'ThreeBounce', color = colors.white }) {
     return (
         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, }}>
-            <Spinner isVisible={true} size={60} type={type} color={color} />
+            <Spinner isVisible={true} size={60} type="ThreeBounce" color={color} />
         </View>
     );
 }

@@ -29,7 +29,7 @@ export default function AccountEdit({ navigation, route }) {
     const [kirim, setKirim] = useState(route.params);
     const [loading, setLoading] = useState(false);
     const sendServer = () => {
-        setLoading(true);
+        // setLoading(true);
         console.log(kirim);
         axios.post(apiURL + 'update_profile', kirim).then(res => {
             console.log(res.data)
@@ -70,6 +70,22 @@ export default function AccountEdit({ navigation, route }) {
                 paddingHorizontal: 20,
             }}>
 
+
+
+
+
+
+                <MyInput label="Nama Lengkap" iconname="person-outline" value={kirim.nama_lengkap} onChangeText={x => setKirim({ ...kirim, nama_lengkap: x })} />
+                <MyGap jarak={10} />
+                <MyInput label="Email" iconname="mail-outline" value={kirim.email} onChangeText={x => setKirim({ ...kirim, email: x })} />
+                <MyGap jarak={10} />
+                <MyInput label="Nomor Telepon" iconname="call-outline" keyboardType='phone-pad' value={kirim.telepon} onChangeText={x => setKirim({ ...kirim, telepon: x })} />
+                <MyGap jarak={10} />
+                <MyInput label="Alamat" iconname="location-outline" value={kirim.alamat} onChangeText={x => setKirim({ ...kirim, alamat: x })} />
+
+                <MyGap jarak={10} />
+                <MyInput label="Kata Sandi" iconname="lock-closed-outline" secureTextEntry={true} onChangeText={x => setKirim({ ...kirim, newpassword: x })} placeholder="Kosongkan jika tidak diubah" />
+                <MyGap jarak={10} />
                 <View style={{
                     padding: 10,
                     justifyContent: 'center',
@@ -89,15 +105,15 @@ export default function AccountEdit({ navigation, route }) {
 
                             setKirim({
                                 ...kirim,
-                                newfoto_user: `data:${response.type};base64, ${response.base64}`,
+                                newfoto_user: `data:${response.assets[0].type};base64, ${response.assets[0].base64}`,
                             });
                         });
 
 
 
                     }} style={{
-                        width: 100,
-                        height: 100,
+                        width: 150,
+                        height: 150,
                         borderWidth: 1,
                         borderColor: Color.blueGray[100],
                         overflow: 'hidden',
@@ -106,43 +122,14 @@ export default function AccountEdit({ navigation, route }) {
                         alignItems: 'center'
                     }}>
                         <Image style={{
-                            width: 100,
-                            height: 100,
+                            width: 150,
+                            height: 150,
+                            resizeMode: 'contain'
                         }} source={{
                             uri: kirim.newfoto_user !== null ? kirim.newfoto_user : kirim.foto_user,
                         }} />
                     </TouchableOpacity>
                 </View>
-
-
-
-                <MyInput label="Username" iconname="at-outline" value={kirim.username} onChangeText={x => setKirim({ ...kirim, username: x })} />
-                <MyGap jarak={20} />
-                <MyInput label="Nama Lengkap" iconname="person-outline" value={kirim.nama_lengkap} onChangeText={x => setKirim({ ...kirim, nama_lengkap: x })} />
-                <MyGap jarak={20} />
-                <MyInput label="Nomor Telepon" iconname="call-outline" keyboardType='phone-pad' value={kirim.telepon} onChangeText={x => setKirim({ ...kirim, telepon: x })} />
-                <MyGap jarak={20} />
-                <MyPicker value={kirim.jenis_kelamin} label="Jenis Kelamin" iconname="male-female-outline" data={[
-                    { label: 'Laki-laki', value: 'Laki-laki' },
-                    { label: 'Perempuan', value: 'Perempuan' },
-                ]}
-                    onValueChange={x => {
-                        setKirim({
-                            ...kirim,
-                            jenis_kelamin: x
-                        })
-                    }} />
-                <MyGap jarak={20} />
-
-                <MyCalendar label={'Tanggal Lahir ( ' + moment().diff(kirim.tanggal_lahir, 'years') + ' Tahun )'} onDateChange={x => {
-                    setKirim({
-                        ...kirim,
-                        tanggal_lahir: x
-                    })
-                }} value={kirim.tanggal_lahir} />
-
-                <MyGap jarak={20} />
-                <MyInput label="Password" iconname="lock-closed-outline" secureTextEntry={true} onChangeText={x => setKirim({ ...kirim, newpassword: x })} placeholder="Kosongkan jika tidak diubah" />
                 <MyGap jarak={20} />
                 {loading && <MyLoading />}
 

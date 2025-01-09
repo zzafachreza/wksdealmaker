@@ -14,10 +14,11 @@ import MyImageUpload from './MyImageUpload';
 import MyTimePicker from './MyTimePicker';
 import MyFileUploader from './MyFileUpload';
 import FileUpload from './FileUpload';
+import MyLoading from './MyLoading';
 
 
-
-
-export { MyGap, MyButton, MyInput, MyHeader, MyPicker, MyCalendar, BottomNavigator, 
-    MyRadio,MyInputSecond,MyButtonSecond ,MyCalendarSecond, MyInputLogin,MyImageUpload,
-     MyTimePicker,MyFileUploader, FileUpload};
+export {
+    MyGap, MyLoading, MyButton, MyInput, MyHeader, MyPicker, MyCalendar, BottomNavigator,
+    MyRadio, MyInputSecond, MyButtonSecond, MyCalendarSecond, MyInputLogin, MyImageUpload,
+    MyTimePicker, MyFileUploader, FileUpload
+};

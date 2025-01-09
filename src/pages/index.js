@@ -13,7 +13,9 @@ import DonwnloadBrosur from './Menu/downloadbrosur';
 import BuktiPengeluaran from './Menu/buktipengeluaran';
 import TambahBuktiPengeluaran from './Menu/tambahbuktipengeluaran';
 import HasilBuatPenawaran from './Menu/hasilbuatpenawaran';
-
+import EditPenawaran from './Menu/EditPenawaran';
+import DetailPengeluaran from './Menu/DetailPengeluaran';
+import EditPengeluaran from './Menu/EditPengeluaran';
 
 
 
@@ -35,10 +37,14 @@ export {
   BuktiPengeluaran,
   TambahBuktiPengeluaran,
   HasilBuatPenawaran,
+  EditPenawaran,
+  DetailPengeluaran,
+  EditPengeluaran
 
 
 
 
-  
+
+
 
 };

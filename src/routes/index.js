@@ -68,6 +68,9 @@ import {
   BuktiPengeluaran,
   TambahBuktiPengeluaran,
   HasilBuatPenawaran,
+  EditPenawaran,
+  EditPengeluaran,
+  DetailPengeluaran,
 
 
 
@@ -95,7 +98,7 @@ const MainApp = () => {
 
 export default function Router() {
   return (
-    <Stack.Navigator initialRouteName='MainApp'>
+    <Stack.Navigator initialRouteName='Splash'>
       <Stack.Screen
         name="Splash"
         component={Splash}
@@ -118,7 +121,18 @@ export default function Router() {
       />
 
 
-<Stack.Screen
+
+      <Stack.Screen
+        name="EditPenawaran"
+        component={EditPenawaran}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+
+      <Stack.Screen
         name="BuatPenawaran"
         component={BuatPenawaran}
         options={{
@@ -127,7 +141,26 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
+        name="EditPengeluaran"
+        component={EditPengeluaran}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+
+      <Stack.Screen
+        name="DetailPengeluaran"
+        component={DetailPengeluaran}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+      <Stack.Screen
         name="TambahPenawaran"
         component={TambahPenawaran}
         options={{
@@ -137,7 +170,7 @@ export default function Router() {
       />
 
 
-<Stack.Screen
+      <Stack.Screen
         name="DownloadBrosur"
         component={DonwnloadBrosur}
         options={{
@@ -146,7 +179,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="BuktiPengeluaran"
         component={BuktiPengeluaran}
         options={{
@@ -155,8 +188,8 @@ export default function Router() {
         }}
       />
 
-      
-<Stack.Screen
+
+      <Stack.Screen
         name="TambahBuktiPengeluaran"
         component={TambahBuktiPengeluaran}
         options={{
@@ -165,7 +198,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="HasilBuatPenawaran"
         component={HasilBuatPenawaran}
         options={{
@@ -174,7 +207,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="Login"
         component={Login}
         options={{
@@ -183,7 +216,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="CheckHargaStock"
         component={CheckHargaStock}
         options={{
@@ -192,7 +225,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="Register"
         component={Register}
         options={{
@@ -212,7 +245,7 @@ export default function Router() {
       />
 
 
-<Stack.Screen
+      <Stack.Screen
         name="Petunjuk"
         component={Petunjuk}
         options={{
