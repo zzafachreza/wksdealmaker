@@ -1,7 +1,7 @@
-import { View, ScrollView, TextInput, Text, TouchableNativeFeedback, TouchableOpacity, Alert } from 'react-native';
+import { View, ScrollView, TextInput, Text, TouchableNativeFeedback, TouchableOpacity, Alert, ActivityIndicator, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Color, colors, fonts } from '../../utils';
-import { MyCalendar, MyHeader, MyImageUpload, MyInput, MyPicker } from '../../components';
+import { MyCalendar, MyHeader, MyImageUpload, MyInput, MyLoading, MyPicker } from '../../components';
 import moment from 'moment';
 import { apiURL, getData, MYAPP } from '../../utils/localStorage';
 import axios from 'axios';
@@ -10,6 +10,7 @@ import { Col } from 'react-native-table-component';
 export default function TambahPenawaran({ navigation, route }) {
 
     const [filteredPartNo, setFilteredPartNo] = useState([]);
+    const [loading, setLoading] = useState(false); // Tambahkan state loading
     const [partDetails, setPartDetails] = useState({});
     const [usdToIdr, setUsdToIdr] = useState(0); // state untuk kurs USD ke IDR
     const allPartNos = ["PN12345", "PN54321", "PN67890"];
@@ -87,21 +88,35 @@ export default function TambahPenawaran({ navigation, route }) {
     });
 
     const handleDateChange = (date) => {
-        console.log("Tanggal yang di pilih :", date);
-        setData((prevstate) => ({ ...prevstate, tanggal: date }))
-    }
+        const formattedDate = moment(date).format('YYYY-MM-DD'); // Format sesuai ekspektasi database
+        console.log("Tanggal yang dipilih:", formattedDate);
+        setData((prevState) => ({ ...prevState, tanggal: formattedDate }));
+    };
 
     const sendServer = () => {
+        const formattedDate = moment(data.tanggal).format('DD MMMM YYYY');
         const dataToSend = { 
             ...data, 
+            tanggal: moment(data.tanggal).format('YYYY-MM-DD'),
             part_no: data.partno,  // Ubah partno menjadi part_no sesuai dengan yang ada di database
         };
-        axios.post(apiURL + 'penawaran_add', dataToSend).then(res => {
-            console.log(res.data);
-            Alert.alert(MYAPP, 'Buat Penawaran Berhasil!');
-            navigation.replace("BuatPenawaran");
-        })
-    }
+        setLoading(true); // Tampilkan loading
+        axios.post(apiURL + 'penawaran_add', dataToSend)
+            .then(res => {
+                console.log(res.data);
+                // Tunggu beberapa saat sebelum menghentikan loading dan menampilkan alert
+                setTimeout(() => {
+                    setLoading(false); // Matikan loading
+                    Alert.alert(MYAPP, 'Buat Penawaran Berhasil!');
+                    navigation.replace("BuatPenawaran");
+                }, 1500); // Jeda 500ms untuk memastikan loading terlihat
+            })
+            .catch(err => {
+                console.error(err);
+                setLoading(false); // Matikan loading jika ada error
+                Alert.alert(MYAPP, 'Terjadi kesalahan, silakan coba lagi.');
+            });
+    };
     
 
 
@@ -112,9 +127,28 @@ export default function TambahPenawaran({ navigation, route }) {
                 backgroundColor: colors.white,
             }}
         >
+            {loading && (
+                <View style={{
+                    ...StyleSheet.absoluteFillObject,
+                    backgroundColor:'rgba(0,0,0,0.8)',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 10,
+                }}>
+                    <ActivityIndicator size="large" color={colors.primary} />
+                    <Text style={{
+                         marginTop: 10,
+                 color: colors.white,
+        fontSize: 16,
+        fontFamily: fonts.primary[600],
+                    }}>Loading...</Text>
+                </View>
+            )}
             <View>
                 <MyHeader title="Buat Penawaran" />
             </View>
+
+           
             <ScrollView>
                 <View
                     style={{
@@ -157,7 +191,9 @@ export default function TambahPenawaran({ navigation, route }) {
                         colorlabel={colors.primary}
                         value={data.partno}
                         onEndEditing={x => getPartNumber(x.nativeEvent.text)}
-                        onChangeText={(x) => setData({ ...data, 'part_no': x })}
+                        onChangeText={(x) => {
+        setData((prevState) => ({ ...prevState, partno: x }));
+    }}
                     />
                     {filteredPartNo.length > 0 &&
                         <View style={{
@@ -293,11 +329,11 @@ export default function TambahPenawaran({ navigation, route }) {
                         onChangeText={(x) => setData({ ...data, 'stock': x })}
                         data={[
                             { label: 'Ready Stock, Sebelum Terjual', value: 'Ready Stock, Sebelum Terjual' },
-                            { label: '7 Hari Kerja', value: '7 Hari Kerja' },
-                            { label: '14 Hari Kerja', value: '14 Hari Kerja' },
-                            { label: '30 Hari Kerja', value: '30 Hari Kerja' },
-                            { label: '60 Hari Kerja', value: '60 Hari Kerja' },
-                            { label: '90 Hari Kerja', value: '90 Hari Kerja' }
+                            { label: '7 Hari Kerja', value: 'Indent, 7 Hari Kerja' },
+                            { label: '14 Hari Kerja', value: 'Indent, 14 Hari Kerja' },
+                            { label: '30 Hari Kerja', value: 'Indent, 30 Hari Kerja' },
+                            { label: '60 Hari Kerja', value: 'Indent, 60 Hari Kerja' },
+                            { label: '90 Hari Kerja', value: 'Indent, 90 Hari Kerja' }
                         ]} />
 
 
